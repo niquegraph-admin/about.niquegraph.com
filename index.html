@@ -14,22 +14,10 @@
 
     html, body {
       height: 100%;
-      width: 100%;
-      overflow: hidden;
       background-color: #000;
       color: white;
       font-family: 'Montserrat', sans-serif;
-    }
-
-    .progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 4px;
-      background: orange;
-      width: 0%;
-      z-index: 10000;
-      transition: width 0.3s ease;
+      overflow: hidden;
     }
 
     .sticky-header {
@@ -42,139 +30,169 @@
       align-items: center;
       height: 60px;
       z-index: 1000;
-      animation: fadeIn 2s forwards;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
     }
 
     .sticky-header img {
       height: 35px;
     }
 
-    .section {
-      display: none;
+    .section-container {
       height: 100vh;
       width: 100vw;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding: 0 80px;
-      text-align: justify;
+      text-align: center;
+      position: relative;
+      padding: 0 60px;
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    .section h2 {
-      font-size: 1.8rem;
+    .section-container.hidden {
+      opacity: 0;
+      transform: translateX(100%);
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .section-container.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: all;
+      position: relative;
+    }
+
+    h2 {
+      color: white;
+      font-size: 1.6rem;
       margin-bottom: 10px;
     }
 
-    .section p {
-      font-size: 1rem;
-      line-height: 2;
+    p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      max-width: 600px;
     }
 
-    .arrow-button {
+    .nav-button {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       font-size: 2rem;
-      color: white;
       background: none;
       border: none;
+      color: white;
       cursor: pointer;
-      z-index: 9999;
+      padding: 10px;
+      z-index: 10;
     }
 
-    .arrow-left {
-      left: 20px;
+    .nav-button.left {
+      left: 10px;
     }
 
-    .arrow-right {
-      right: 20px;
+    .nav-button.right {
+      right: 10px;
     }
 
-    footer {
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
       text-align: center;
-      font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.5);
-      padding: 10px 20px 20px;
-      background-color: #000;
-      font-weight: 200;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      padding: 10px;
     }
 
-    .home-link {
+    .footer a {
+      color: rgba(255, 255, 255, 0.7);
       text-decoration: underline;
       display: block;
-      margin-bottom: 3px;
-      font-size: 0.85rem;
-      font-weight: 400;
+      margin-bottom: 5px;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section-container {
+        padding: 0 30px;
+      }
+
+      p {
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="progress-bar" id="progressBar"></div>
-
   <div class="sticky-header">
     <a href="https://niquegraph.com">
       <img src="logo.png" alt="Logo">
     </a>
   </div>
 
-  <div class="section" id="section0">
+  <div id="section1" class="section-container active">
     <h2>Background</h2>
-    <p>
-      niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need.
-    </p>
+    <p>niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need.</p>
   </div>
-
-  <div class="section" id="section1">
+  <div id="section2" class="section-container hidden">
     <h2>Vision</h2>
-    <p>
-      Coming sooon.
-    </p>
+    <p>Coming sooon.</p>
   </div>
-
-  <div class="section" id="section2">
+  <div id="section3" class="section-container hidden">
     <h2>Mission</h2>
-    <p>
-      Coming soooon.
-    </p>
+    <p>Coming soooon.</p>
   </div>
 
-  <button class="arrow-button arrow-left" id="prevBtn">&#8592;</button>
-  <button class="arrow-button arrow-right" id="nextBtn">&#8594;</button>
+  <button class="nav-button left" id="prevBtn" style="display: none;">&#8592;</button>
+  <button class="nav-button right" id="nextBtn">&#8594;</button>
 
-  <footer>
-    <span class="home-link" onclick="window.location.href='https://niquegraph.com'">&larr; Back to Homepage</span>
-    <div>a Nik Iman project – 2025</div>
-  </footer>
+  <div class="footer">
+    <a href="https://niquegraph.com">&larr; Back to Homepage</a>
+    a Nik Iman project – 2025
+  </div>
 
   <script>
-    const sections = document.querySelectorAll('.section');
-    const progressBar = document.getElementById('progressBar');
-    const nextBtn = document.getElementById('nextBtn');
-    const prevBtn = document.getElementById('prevBtn');
+    const sections = document.querySelectorAll('.section-container');
+    let currentIndex = 0;
 
-    let current = 0;
-
-    function updateView() {
-      sections.forEach((section, i) => {
-        section.style.display = i === current ? 'flex' : 'none';
+    const updateSections = () => {
+      sections.forEach((section, index) => {
+        section.classList.remove('active');
+        section.classList.add('hidden');
+        if (index === currentIndex) {
+          section.classList.remove('hidden');
+          section.classList.add('active');
+        }
       });
-      progressBar.style.width = `${((current + 1) / sections.length) * 100}%`;
-      prevBtn.style.display = current === 0 ? 'none' : 'block';
-      nextBtn.style.display = current === sections.length - 1 ? 'none' : 'block';
-    }
+      document.getElementById('prevBtn').style.display = currentIndex === 0 ? 'none' : 'block';
+      document.getElementById('nextBtn').style.display = currentIndex === sections.length - 1 ? 'none' : 'block';
+    };
 
-    nextBtn.addEventListener('click', () => {
-      if (current < sections.length - 1) current++;
-      updateView();
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentIndex < sections.length - 1) {
+        currentIndex++;
+        updateSections();
+      }
     });
 
-    prevBtn.addEventListener('click', () => {
-      if (current > 0) current--;
-      updateView();
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateSections();
+      }
     });
-
-    updateView();
   </script>
 </body>
 </html>
