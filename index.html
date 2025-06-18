@@ -90,9 +90,14 @@
     }
 
     .background-container {
-      background: url('preview.JPG') center/cover no-repeat fixed;
-      position: relative;
-    }
+  background-image: url('preview.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 100%;
+}
 
     .background-overlay {
       background: rgba(0, 0, 0, 0.5);
@@ -156,7 +161,7 @@
       .section {
         margin: 100px auto;
         line-height: 1.8;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
       }
     }
   </style>
