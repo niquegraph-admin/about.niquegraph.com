@@ -12,7 +12,7 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    body, html {
       height: 100%;
       background-color: #000;
       color: white;
@@ -28,7 +28,7 @@
       background: orange;
       width: 33.33%;
       z-index: 10000;
-      transition: width 0.5s ease;
+      transition: width 0.3s ease;
     }
 
     .sticky-header {
@@ -41,79 +41,67 @@
       align-items: center;
       height: 60px;
       z-index: 1000;
-      opacity: 0;
-      animation: fadeInSticky 2s forwards;
-    }
-
-    @keyframes fadeInSticky {
-      to {
-        opacity: 1;
-      }
+      animation: fadeIn 2s forwards;
     }
 
     .sticky-header img {
       height: 35px;
     }
 
-    .background-container {
-      background-image: url('previe.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-      width: 100%;
+    .screen {
+      width: 100vw;
       height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .background-overlay {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 40px 20px;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
+      padding: 0 20px;
     }
 
-    .section {
-      max-width: 800px;
-      opacity: 1;
-      transition: opacity 0.8s ease;
-      line-height: 2.2;
-      font-size: 0.95rem;
-    }
-
-    .hidden {
-      display: none;
+    .section-content {
+      max-width: 700px;
     }
 
     h2 {
       color: white;
       font-size: 1.6rem;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: orange;
+    p {
+      font-size: 0.95rem;
+      line-height: 2;
+    }
+
+    .nav-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      transform: translateY(-50%);
+    }
+
+    .nav-buttons button {
+      background: none;
       border: none;
-      color: black;
-      font-weight: bold;
+      color: white;
+      font-size: 2rem;
       cursor: pointer;
-      border-radius: 5px;
+      transition: opacity 0.3s;
+    }
+
+    .nav-buttons button:disabled {
+      opacity: 0;
+      cursor: default;
     }
 
     footer {
       text-align: center;
       font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.5);
-      padding: 10px 20px;
+      padding: 10px 20px 20px;
       background-color: #000;
       font-weight: 200;
       position: absolute;
@@ -128,42 +116,32 @@
       font-size: 0.85rem;
       font-weight: 400;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
-
   <div class="progress-bar" id="progressBar"></div>
 
-  <div class="sticky-header" id="stickyHeader">
+  <div class="sticky-header">
     <a href="https://niquegraph.com">
       <img src="logo.png" alt="Logo">
     </a>
   </div>
 
-  <div class="background-container">
-    <div class="background-overlay">
-      <div class="section" id="section1">
-        <h2>Background</h2>
-        <p>
-          niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need.
-        </p>
-        <button onclick="nextSection(2)">Next</button>
-      </div>
-
-      <div class="section hidden" id="section2">
-        <h2>Vision</h2>
-        <p>
-          Coming sooon.
-        </p>
-        <button onclick="nextSection(3)">Next</button>
-      </div>
-
-      <div class="section hidden" id="section3">
-        <h2>Mission</h2>
-        <p>
-          Coming soooon.
-        </p>
-      </div>
+  <div class="screen">
+    <div class="section-content" id="sectionContent">
+      <h2>Background</h2>
+      <p>
+        niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need.
+      </p>
+    </div>
+    <div class="nav-buttons">
+      <button id="prevBtn" onclick="navigate(-1)">&#8592;</button>
+      <button id="nextBtn" onclick="navigate(1)">&#8594;</button>
     </div>
   </div>
 
@@ -173,15 +151,46 @@
   </footer>
 
   <script>
+    const sections = [
+      {
+        title: "Background",
+        text: "niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need."
+      },
+      {
+        title: "Vision",
+        text: "Coming sooon."
+      },
+      {
+        title: "Mission",
+        text: "Coming soooon."
+      }
+    ];
+
+    let currentSection = 0;
+
+    const titleEl = document.querySelector('#sectionContent h2');
+    const textEl = document.querySelector('#sectionContent p');
     const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
 
-    function nextSection(stage) {
-      document.querySelector(`#section${stage - 1}`).classList.add('hidden');
-      const next = document.querySelector(`#section${stage}`);
-      next.classList.remove('hidden');
-      progressBar.style.width = `${stage * 33.33}%`;
+    function renderSection(index) {
+      titleEl.textContent = sections[index].title;
+      textEl.textContent = sections[index].text;
+      progressBar.style.width = `${(index + 1) * 33.33}%`;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === sections.length - 1;
     }
-  </script>
 
+    function navigate(direction) {
+      const nextIndex = currentSection + direction;
+      if (nextIndex >= 0 && nextIndex < sections.length) {
+        currentSection = nextIndex;
+        renderSection(currentSection);
+      }
+    }
+
+    renderSection(currentSection);
+  </script>
 </body>
 </html>
