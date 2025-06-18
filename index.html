@@ -40,37 +40,12 @@
       align-items: center;
       height: 60px;
       z-index: 1000;
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
-    }
-
-    .sticky-header.visible {
-      transform: translateY(0);
+      opacity: 0;
+      animation: fadeIn 2s forwards;
     }
 
     .sticky-header img {
       height: 35px;
-    }
-
-    .hero {
-      height: 80vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      text-align: center;
-      position: relative;
-      flex-direction: column;
-      padding-top: 20px;
-      padding-left: 20px;
-    }
-
-    .hero img {
-      width: 300px;
-      margin: 0 auto;
-      display: block;
-      transition: opacity 0.3s ease;
-      opacity: 0;
-      animation: fadeIn 2s forwards;
     }
 
     @keyframes fadeIn {
@@ -79,25 +54,15 @@
       }
     }
 
-    .gradient-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 100px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-      z-index: 1;
-    }
-
     .background-container {
-  background-image: url('previe.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  position: relative;
-  width: 100%;
-}
+      background-image: url('previe.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      position: relative;
+      width: 100%;
+    }
 
     .background-overlay {
       background: rgba(0, 0, 0, 0.5);
@@ -136,27 +101,23 @@
     }
 
     footer {
-  text-align: center;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
-  padding: 10px 20px 20px;
-  background-color: #000;
-  font-weight: 200; /* Normal weight, not bold */
-}
+      text-align: center;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 10px 20px 20px;
+      background-color: #000;
+      font-weight: 200;
+    }
 
     .home-link {
-  text-decoration: underline;
-  display: block;
-  margin-bottom: 3px;
-  font-size: 0.85rem;
-  font-weight: 400;
-}
+      text-decoration: underline;
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
 
     @media (max-width: 600px) {
-      .hero img {
-        width: 240px;
-      }
-
       .section {
         margin: 100px auto;
         line-height: 1.8;
@@ -166,20 +127,12 @@
   </style>
 </head>
 <body>
-
   <div class="progress-bar" id="progressBar"></div>
 
   <div class="sticky-header" id="stickyHeader">
-  <a href="https://niquegraph.com">
-    <img src="logo.png" alt="Logo">
-  </a>
-</div>
-
-
-  <div class="hero" id="hero">
-    <img src="logo.png" alt="Logo" id="heroLogo" />
-    
-    <div class="gradient-overlay"></div>
+    <a href="https://niquegraph.com">
+      <img src="logo.png" alt="Logo">
+    </a>
   </div>
 
   <div class="background-container">
@@ -188,12 +141,14 @@
         <h2>Background</h2>
         <p>
           niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need.
+        </p>
       </div>
 
       <div class="section fade-section" id="section2">
         <h2>Vision</h2>
         <p>
           Coming sooon.
+        </p>
       </div>
 
       <div class="section fade-section" id="section3">
@@ -212,13 +167,9 @@
 
   <script>
     const stickyHeader = document.getElementById('stickyHeader');
-    const hero = document.getElementById('hero');
     const progressBar = document.getElementById('progressBar');
 
     window.addEventListener('scroll', () => {
-      const triggerHeight = hero.offsetHeight - 100;
-      stickyHeader.classList.toggle('visible', window.scrollY > triggerHeight);
-
       const scrollTop = window.scrollY;
       const docHeight = document.body.scrollHeight - window.innerHeight;
       const scrollPercent = (scrollTop / docHeight) * 100;
