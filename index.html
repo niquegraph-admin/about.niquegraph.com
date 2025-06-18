@@ -59,7 +59,7 @@
       display: none;
       height: calc(100vh - 100px);
       width: 100%;
-      padding: 0 60px;
+      padding: 0 60x;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -73,6 +73,14 @@
       margin-bottom: 10px;
       font-size: 1.5rem;
     }
+
+    .text-wrapper {
+  max-width: 700px;
+  width: 100%;
+  padding: 0 40px;
+  text-align: center;
+    }
+
 
     .slide-in-right {
       opacity: 1;
@@ -112,10 +120,17 @@
 
     .nav-right {
       right: 20px;
-    }
+    }  
 
-    .section {
-  transition: all 1.6s ease-in-out; /* slower, smoother */
+    .fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+    .fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
     .footer {
@@ -140,10 +155,15 @@
 
     @media (max-width: 600px) {
       .section-content {
-        padding: 0 60px;
+        padding: 0 30px;
         font-size: 0.8rem;
       }
     }
+    @media (min-width: 1200px) {
+  .text-wrapper {
+    max-width: 600px;
+  }
+}
   </style>
 </head>
 <body>
@@ -157,25 +177,25 @@
   </div>
 
   <div class="section-content" id="section0">
-    <h2>Background</h2>
-    <p>
-      niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need.
-    </p>
+  <div class="text-wrapper">
+    <h2 class="fade-in">Background</h2>
+    <p class="fade-in">niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need.</p>
   </div>
+</div>
 
-  <div class="section-content" id="section1">
-    <h2>Vision</h2>
-    <p>
-      Coming soon.
-    </p>
+  <div class="section-content" id="section0">
+  <div class="text-wrapper">
+    <h2 class="fade-in">Vision</h2>
+    <p class="fade-in">Coming soon.</p>
   </div>
+</div>
 
-  <div class="section-content" id="section2">
-    <h2>Mission</h2>
-    <p>
-      Coming soon.
-    </p>
+  <div class="section-content" id="section0">
+  <div class="text-wrapper">
+    <h2 class="fade-in">Mission</h2>
+    <p class="fade-in">Coming soon.</p>
   </div>
+</div>
 
   <button class="nav-arrow nav-left" id="leftArrow">←</button>
   <button class="nav-arrow nav-right" id="rightArrow">→</button>
@@ -192,25 +212,34 @@
     let currentSection = 0;
 
     function showSection(index, direction = 'right') {
-      if (index < 0 || index >= sections.length || index === currentSection) return;
+  if (index < 0 || index >= sections.length || index === currentSection) return;
 
-      const current = sections[currentSection];
-      const next = sections[index];
+  const current = sections[currentSection];
+  const next = sections[index];
 
-      current.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right');
-      next.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right');
+  current.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right');
+  next.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right');
 
-      current.classList.add(direction === 'right' ? 'slide-out-left' : 'slide-out-right');
+  // Remove fade-in classes
+  const fadeIns = next.querySelectorAll('.fade-in');
+  fadeIns.forEach(el => el.classList.remove('show'));
 
-      setTimeout(() => {
-        current.style.display = 'none';
-        next.style.display = 'flex';
-        next.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
-        currentSection = index;
-        updateNavigation();
-        updateProgressBar();
-      }, 300);
-    }
+  current.classList.add(direction === 'right' ? 'slide-out-left' : 'slide-out-right');
+
+  setTimeout(() => {
+    current.style.display = 'none';
+    next.style.display = 'flex';
+    next.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
+    currentSection = index;
+    updateNavigation();
+    updateProgressBar();
+
+    // Delay fade-in after slide completes
+    setTimeout(() => {
+      fadeIns.forEach(el => el.classList.add('show'));
+    }, 100); // Start fade-in after slide-in
+  }, 300);
+}
 
     function updateNavigation() {
       leftArrow.style.display = currentSection === 0 ? 'none' : 'block';
@@ -234,6 +263,12 @@
     sections.forEach((s, i) => s.style.display = i === 0 ? 'flex' : 'none');
     updateNavigation();
     updateProgressBar();
+
+    // Trigger fade-in for initial section
+const initialFadeIns = sections[0].querySelectorAll('.fade-in');
+setTimeout(() => {
+  initialFadeIns.forEach(el => el.classList.add('show'));
+}, 100);
   </script>
 </body>
 </html>
