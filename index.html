@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>About – niquegraph</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
   <style>
@@ -114,6 +114,10 @@
       right: 20px;
     }
 
+    .section {
+  transition: all 1s ease-in-out; /* slower, smoother */
+}
+
     .footer {
       text-align: center;
       color: rgba(255, 255, 255, 0.5);
@@ -136,7 +140,7 @@
 
     @media (max-width: 600px) {
       .section-content {
-        padding: 0 20px;
+        padding: 0 40px;
         font-size: 0.8rem;
       }
     }
