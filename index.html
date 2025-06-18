@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About – niquegraph</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="favicon.png">
   <style>
     * {
       margin: 0;
@@ -19,6 +18,16 @@
       color: white;
       font-family: 'Montserrat', sans-serif;
       scroll-behavior: smooth;
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: orange;
+      width: 0%;
+      z-index: 10000;
     }
 
     .sticky-header {
@@ -60,6 +69,14 @@
       margin: 0 auto;
       display: block;
       transition: opacity 0.3s ease;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
 
     .gradient-overlay {
@@ -73,27 +90,45 @@
     }
 
     .background-container {
-      background: url('preview.JPG') center/cover no-repeat;
+      background: url('preview.jpg') center/cover no-repeat fixed;
       position: relative;
     }
 
     .background-overlay {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
       padding: 60px 20px 60px;
     }
 
     .section {
       max-width: 800px;
-      margin: 100px auto;
+      margin: 120px auto;
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.8s ease;
-      line-height: 1.5;
+      line-height: 2.2;
+      font-size: 0.95rem;
     }
 
     .section.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    h2 {
+      color: white;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      text-decoration: none;
+    }
+
+    p span.keyword {
+      transition: color 0.3s ease;
+      cursor: default;
+    }
+
+    p span.keyword:hover {
+      color: #1E90FF;
     }
 
     footer {
@@ -102,6 +137,7 @@
       color: rgba(255, 255, 255, 0.5);
       padding: 40px 20px 20px;
       background-color: #000;
+      font-weight: normal;
     }
 
     .home-link {
@@ -111,44 +147,29 @@
       margin-top: 10px;
     }
 
-    @keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-  animation-delay: 0.2s;
-}
-
     @media (max-width: 600px) {
       .hero img {
         width: 240px;
       }
 
       .section {
-        margin: 80px auto;
-        font-size: 0.8rem;
-        
+        margin: 100px auto;
+        line-height: 1.8;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
 
+  <div class="progress-bar" id="progressBar"></div>
+
   <div class="sticky-header" id="stickyHeader">
     <img src="logo.png" alt="Logo">
   </div>
 
   <div class="hero" id="hero">
-    <img src="logo.png" alt="Logo" id="heroLogo" class="fade-in" />
+    <img src="logo.png" alt="Logo" id="heroLogo" />
     <div class="gradient-overlay"></div>
   </div>
 
@@ -157,21 +178,21 @@
       <div class="section fade-section" id="section1">
         <h2>Background</h2>
         <p>
-          niquegraph (Studio.) is established on the idea of premium designs tailored specifically to each one of our customers. We value collaborations and partnerships to create something amazing and truly you-nique. Not only just we guarantee you a premium result, but a premium relationship and workflow from start to finish.
+          <span class="keyword">Niquegraph</span> is built on the idea of <span class="keyword">minimalism</span> and <span class="keyword">purpose</span>. We believe in creating <span class="keyword">elegant</span> digital experiences with meaningful design and functional beauty.
         </p>
       </div>
 
       <div class="section fade-section" id="section2">
         <h2>Vision</h2>
         <p>
-          To empower everyone with good graphic design.
+          To empower <span class="keyword">small creators</span> and <span class="keyword">digital entrepreneurs</span> with powerful, intuitive tools and experiences that spark <span class="keyword">imagination</span>.
         </p>
       </div>
 
       <div class="section fade-section" id="section3">
         <h2>Mission</h2>
         <p>
-          To stay true to our intentions.
+          Our mission is to <span class="keyword">simplify</span> design and development with <span class="keyword">beautiful interfaces</span> and purposeful interactions that require no fluff—just <span class="keyword">impact</span>.
         </p>
       </div>
     </div>
@@ -185,31 +206,28 @@
   <script>
     const stickyHeader = document.getElementById('stickyHeader');
     const hero = document.getElementById('hero');
+    const progressBar = document.getElementById('progressBar');
+
     window.addEventListener('scroll', () => {
       const triggerHeight = hero.offsetHeight - 100;
-      if (window.scrollY > triggerHeight) {
-        stickyHeader.classList.add('visible');
-      } else {
-        stickyHeader.classList.remove('visible');
-      }
+      stickyHeader.classList.toggle('visible', window.scrollY > triggerHeight);
+
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      progressBar.style.width = scrollPercent + '%';
     });
 
     const sections = document.querySelectorAll('.fade-section');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        } else {
-          entry.target.classList.remove('visible');
-        }
+        entry.target.classList.toggle('visible', entry.isIntersecting);
       });
     }, {
       threshold: 0.5
     });
 
-    sections.forEach(section => {
-      observer.observe(section);
-    });
+    sections.forEach(section => observer.observe(section));
   </script>
 </body>
 </html>
