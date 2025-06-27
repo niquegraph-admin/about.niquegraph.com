@@ -1,275 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>About – niquegraph</title>
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Unveil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
       height: 100%;
-      background-color: #000;
-      color: white;
-      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
       overflow: hidden;
     }
 
-    .progress-bar {
-      position: fixed;
+    .unveil-btn {
+      padding: 16px 32px;
+      background-color: white;
+      border: none;
+      border-radius: 999px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .unveil-btn:hover {
+      transform: scale(1.05);
+      background-color: #f0f0f0;
+    }
+
+    .video-container {
+      position: absolute;
       top: 0;
       left: 0;
-      height: 4px;
-      background: orange;
-      width: 0%;
-      z-index: 10000;
-      transition: width 0.3s ease;
-    }
-
-    .sticky-header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 60px;
-      z-index: 1000;
-      opacity: 0;
-      animation: fadeInHeader 1s ease forwards;
-    }
-
-    @keyframes fadeInHeader {
-      to {
-        opacity: 1;
-      }
-    }
-
-    .sticky-header img {
-      height: 35px;
-    }
-
-    .section-content {
+      height: 100vh;
+      width: 100vw;
       display: none;
-      height: calc(100vh - 100px);
+      z-index: 1;
+    }
+
+    iframe {
       width: 100%;
-      padding: 0 60x;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      flex-direction: column;
-      font-size: 0.95rem;
-      transition: transform 0.5s ease, opacity 0.5s ease;
-    }
-
-    .section-content h2 {
-      margin-bottom: 10px;
-      font-size: 1.5rem;
-    }
-
-    .text-wrapper {
-  max-width: 700px;
-  width: 100%;
-  padding: 0 40px;
-  text-align: center;
-    }
-
-
-    .slide-in-right {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .slide-in-left {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .slide-out-left {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-
-    .slide-out-right {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-
-    .nav-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      color: white;
-      background: none;
+      height: 100%;
       border: none;
-      cursor: pointer;
-      z-index: 1001;
     }
-
-    .nav-left {
-      left: 20px;
-    }
-
-    .nav-right {
-      right: 20px;
-    }  
-
-    .fade-in {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-    .fade-in.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-    .footer {
-      text-align: center;
-      color: rgba(255, 255, 255, 0.5);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.85rem;
-      padding: 10px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: black;
-    }
-
-    .footer a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: underline;
-      font-size: 0.85rem;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    @media (max-width: 600px) {
-      .section-content {
-        padding: 0 30px;
-        font-size: 0.8rem;
-      }
-    }
-    @media (min-width: 1200px) {
-  .text-wrapper {
-    max-width: 600px;
-  }
-}
   </style>
 </head>
 <body>
 
-  <div class="progress-bar" id="progressBar"></div>
+  <button class="unveil-btn" onclick="rickroll()">Unveil</button>
 
-  <div class="sticky-header">
-    <a href="https://niquegraph.com">
-      <img src="logo.png" alt="Logo">
-    </a>
-  </div>
-
-  <div class="section-content" id="section0">
-  <div class="text-wrapper">
-    <h2 class="fade-in">Background</h2>
-    <p class="fade-in">niquegraph Studio is established to offer premium and you-nique graphic design service from end to finish tailored to each one of you no matter what you need.</p>
-  </div>
-</div>
-
-  <div class="section-content" id="section0">
-  <div class="text-wrapper">
-    <h2 class="fade-in">Vision</h2>
-    <p class="fade-in">Coming soon.</p>
-  </div>
-</div>
-
-  <div class="section-content" id="section0">
-  <div class="text-wrapper">
-    <h2 class="fade-in">Mission</h2>
-    <p class="fade-in">Coming soon.</p>
-  </div>
-</div>
-
-  <button class="nav-arrow nav-left" id="leftArrow">←</button>
-  <button class="nav-arrow nav-right" id="rightArrow">→</button>
-
-  <div class="footer">
-    <a href="https://niquegraph.com">Back to Homepage</a>
-    a Nik Iman project – 2025
+  <div class="video-container" id="rickroll">
+    <iframe 
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&loop=1&playlist=dQw4w9WgXcQ"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
 
   <script>
-    const sections = document.querySelectorAll('.section-content');
-    const leftArrow = document.getElementById('leftArrow');
-    const rightArrow = document.getElementById('rightArrow');
-    let currentSection = 0;
-
-    function showSection(index, direction = 'right') {
-  if (index < 0 || index >= sections.length || index === currentSection) return;
-
-  const current = sections[currentSection];
-  const next = sections[index];
-
-  current.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right');
-  next.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right');
-
-  // Remove fade-in classes
-  const fadeIns = next.querySelectorAll('.fade-in');
-  fadeIns.forEach(el => el.classList.remove('show'));
-
-  current.classList.add(direction === 'right' ? 'slide-out-left' : 'slide-out-right');
-
-  setTimeout(() => {
-    current.style.display = 'none';
-    next.style.display = 'flex';
-    next.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
-    currentSection = index;
-    updateNavigation();
-    updateProgressBar();
-
-    // Delay fade-in after slide completes
-    setTimeout(() => {
-      fadeIns.forEach(el => el.classList.add('show'));
-    }, 100); // Start fade-in after slide-in
-  }, 300);
-}
-
-    function updateNavigation() {
-      leftArrow.style.display = currentSection === 0 ? 'none' : 'block';
-      rightArrow.style.display = currentSection === sections.length - 1 ? 'none' : 'block';
+    function rickroll() {
+      document.querySelector('.unveil-btn').style.display = 'none';
+      document.getElementById('rickroll').style.display = 'block';
     }
-
-    function updateProgressBar() {
-      const percentage = ((currentSection + 1) / sections.length) * 100;
-      document.getElementById('progressBar').style.width = percentage + '%';
-    }
-
-    leftArrow.addEventListener('click', () => {
-      showSection(currentSection - 1, 'left');
-    });
-
-    rightArrow.addEventListener('click', () => {
-      showSection(currentSection + 1, 'right');
-    });
-
-    // Initial setup
-    sections.forEach((s, i) => s.style.display = i === 0 ? 'flex' : 'none');
-    updateNavigation();
-    updateProgressBar();
-
-    // Trigger fade-in for initial section
-const initialFadeIns = sections[0].querySelectorAll('.fade-in');
-setTimeout(() => {
-  initialFadeIns.forEach(el => el.classList.add('show'));
-}, 100);
   </script>
+
 </body>
 </html>
