@@ -55,12 +55,11 @@
   <button class="unveil-btn" onclick="rickroll()">Unveil</button>
 
   <div class="video-container" id="rickroll">
-    <iframe 
-      src="your-video.mp4"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-  </div>
+  <video id="rickvid" autoplay controls playsinline>
+    <source src="rickroll.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
 
   <script>
     function rickroll() {
